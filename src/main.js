@@ -3,7 +3,7 @@ export const createQRCode = (url, opts = {}) => {
 	let { 
 		cellSize = 6, 
 		margin = 0, 
-		typeNumber = 15,
+		typeNumber = 5,
 		errorCorrectionLevel = 'L' 
 	} = opts || {};
 	let QR = qrcode(typeNumber, errorCorrectionLevel);

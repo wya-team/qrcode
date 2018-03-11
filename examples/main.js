@@ -3,6 +3,10 @@ import qrcode, { createQRCode } from '../src/main';
 let input = document.createElement('input');
 let img = document.createElement('img');
 
+Object.entries({
+	display: "block",
+	margin: "5px"
+}).forEach(item => input.style[item[0]] = item[1]);
 document.body.appendChild(input);
 document.body.appendChild(img);
 
