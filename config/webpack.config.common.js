@@ -47,7 +47,6 @@ const webpackConfig = {
 		}
 	},
 	module: {
-		exprContextCritical: false,
 		rules: [
 			{
 				test: /\.jsx?$/,
@@ -96,10 +95,7 @@ const webpackConfig = {
 					limit: 10000
 				}
 			},
-			{
-				test: /\.json$/i,
-				use: 'json-loader'
-			},
+
 			{
 				test: /\.html$/i,
 				use: 'html-loader'
