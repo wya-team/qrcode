@@ -1,4 +1,4 @@
-# wya-qrcode
+# \@wya/qrcode
 [![npm][npm-image]][npm-url] [![changelog][changelog-image]][changelog-url]
 
 
@@ -7,7 +7,7 @@
 ## 安装
 
 ```vim
-npm install wya-qrcode --save
+npm install @wya/qrcode --save
 ```
 
 ## 使用
@@ -22,5 +22,5 @@ createQRCode("github.com")
 [changelog-image]: https://img.shields.io/badge/changelog-md-blue.svg
 [changelog-url]: CHANGELOG.md
 
-[npm-image]: https://img.shields.io/npm/v/wya-qrcode.svg
-[npm-url]: https://www.npmjs.com/package/wya-qrcode
+[npm-image]: https://img.shields.io/npm/v/@wya/qrcode.svg
+[npm-url]: https://www.npmjs.com/package/@wya/qrcode

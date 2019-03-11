@@ -13,7 +13,7 @@ const { APP_ROOT, commonConfig, localIp, localPort } = require('./webpack.config
 let webpackConfig = {
 	mode: 'development',
 	entry: {
-		main: path.resolve(APP_ROOT, `examples/main.js`)
+		index: path.resolve(APP_ROOT, `examples/index.js`)
 	},
 	output: {
 		path: path.resolve(APP_ROOT, 'dist'),
@@ -31,7 +31,7 @@ let webpackConfig = {
 		 */
 		new HtmlWebpackPlugin({
 			template: path.resolve(APP_ROOT, 'examples/index.tpl.html'),
-			chunks: ['main'], // 当前路由所包含的模块，注意common引入方式
+			chunks: ['index'], // 当前路由所包含的模块，注意common引入方式
 			inject: 'body',
 			filename: './index.html'
 		}),

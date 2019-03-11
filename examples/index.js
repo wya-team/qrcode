@@ -1,4 +1,4 @@
-import qrcode, { createQRCode } from '../src/main';
+import qrcode, { createQRCode } from '../src/index';
 // ele
 let input = document.createElement('input');
 let img = document.createElement('img');
