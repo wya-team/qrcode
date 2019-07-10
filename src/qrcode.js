@@ -221,7 +221,7 @@ export const qrcode = (typeNumber, errorCorrectionLevel) => {
 		}
 		return data;
 	};
-	let createData = (typeNumber, errorCorrectionLevel, dataList) => {
+	let createBuffer = (typeNumber, errorCorrectionLevel, dataList) => {
 		let rsBlocks = getRSBlocks(typeNumber, errorCorrectionLevel);
 		let buffer = QRBitBuffer();
 		for (let i = 0; i < dataList.length; i += 1) {
@@ -235,6 +235,14 @@ export const qrcode = (typeNumber, errorCorrectionLevel) => {
 		for (let i = 0; i < rsBlocks.length; i += 1) {
 			totalDataCount += rsBlocks[i].dataCount;
 		}
+		return {
+			buffer,
+			rsBlocks,
+			totalDataCount
+		};
+	};
+	let createData = (typeNumber, errorCorrectionLevel, dataList) => {
+		const { buffer, totalDataCount, rsBlocks } = createBuffer(typeNumber, errorCorrectionLevel, dataList); 
 		if (buffer.getLengthInBits() > totalDataCount * 8) {
 			throw 'code length overflow. (' + buffer.getLengthInBits() + '>' + totalDataCount * 8 + ')';
 		}
@@ -259,7 +267,17 @@ export const qrcode = (typeNumber, errorCorrectionLevel) => {
 		}
 		return createBytes(buffer, rsBlocks);
 	};
+	const fitTypeNumber = (typeNumber, errorCorrectionLevel, dataList) => {
+		const { buffer, totalDataCount, rsBlocks } = createBuffer(typeNumber, errorCorrectionLevel, dataList); 
+
+		if (buffer.getLengthInBits() > totalDataCount * 8) {
+			typeNumber = fitTypeNumber(typeNumber + 1, errorCorrectionLevel, dataList);
+		}
+		return typeNumber;
+	};
 	const makeImpl = (test, maskPattern) => {
+		_typeNumber = fitTypeNumber(_typeNumber, _errorCorrectionLevel, _dataList);
+
 		_moduleCount = _typeNumber * 4 + 17;
 		_modules =  ((moduleCount) => {
 			let modules = new Array(moduleCount);
@@ -318,27 +336,6 @@ export const qrcode = (typeNumber, errorCorrectionLevel) => {
 			return _moduleCount;
 		},
 		make() {
-			if (_typeNumber < 1) {
-				let typeNumber = 1;
-				for (; typeNumber < 40; typeNumber++) {
-					let rsBlocks = getRSBlocks(typeNumber, _errorCorrectionLevel);
-					let buffer = QRBitBuffer();
-					for (let i = 0; i < _dataList.length; i++) {
-						let data = _dataList[i];
-						buffer.put(data.getMode(), 4);
-						buffer.put(data.getLength(), getLengthInBits(data.getMode(), typeNumber));
-						data.write(buffer);
-					}
-					let totalDataCount = 0;
-					for (let i = 0; i < rsBlocks.length; i++) {
-						totalDataCount += rsBlocks[i].dataCount;
-					}
-					if (buffer.getLengthInBits() <= totalDataCount * 8) {
-						break;
-					}
-				}
-				_typeNumber = typeNumber;
-			}
 			makeImpl(false, getBestMaskPattern());
 		},
 		createTableTag(cellSize, margin) {

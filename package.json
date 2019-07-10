@@ -1,6 +1,6 @@
 {
     "name": "@wya/qrcode",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "wya-qrcode for js",
     "main": "lib/index.js",
     "files": [
