@@ -2,7 +2,7 @@ import { base64DecodeInputStream, byteArrayOutputStream, base64EncodeOutputStrea
 import { gifImage } from './gifImage';
 
 export const createImgTag = (width, height, opts = {}) => {
-	let { getPixel, alt, isBase64 } = opts || {};
+	let { getPixel, alt, isBase64, mime } = opts || {};
 	let gif = gifImage(width, height);
 	for (let y = 0; y < height; y += 1) {
 		for (let x = 0; x < width; x += 1) {
@@ -19,12 +19,14 @@ export const createImgTag = (width, height, opts = {}) => {
 	base64.flush();
 
 	if (isBase64) {
-		return 'data:image/gif;base64,' + base64;
+		return 'data:' + mime + ';base64,' + base64;
 	}
 	let img = '';
 	img += '<img';
 	img += '\u0020src="';
-	img += 'data:image/gif;base64,';
+	img += 'data:';
+	img += mime; 
+	img += ';base64,'; 
 	img += base64;
 	img += '"';
 	img += '\u0020width="';

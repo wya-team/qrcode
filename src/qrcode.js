@@ -398,10 +398,10 @@ export const qrcode = (typeNumber, errorCorrectionLevel) => {
 			qrSvg += '</svg>';
 			return qrSvg;
 		},
-		createBase64(cellSize, margin) { 
-			return _this.createImgTag(cellSize, margin, true);
+		createBase64(cellSize, margin, mime) { 
+			return _this.createImgTag(cellSize, margin, true, mime);
 		},
-		createImgTag(cellSize, margin, isBase64) {
+		createImgTag(cellSize, margin, isBase64, mime) {
 			cellSize = cellSize || 2;
 			margin = (typeof margin == 'undefined') ? cellSize * 4 : margin;
 			let size = _this.getModuleCount() * cellSize + margin * 2;
@@ -418,7 +418,8 @@ export const qrcode = (typeNumber, errorCorrectionLevel) => {
 						return 1;
 					}
 				},
-				isBase64
+				isBase64,
+				mime
 			});
 		}
 	};	
